@@ -3,6 +3,22 @@ import ResponsiveHeroBanner from "@/components/ui/responsive-hero-banner";
 
 export const Route = createFileRoute("/demo")({
   component: HeroDemo,
+  head: () => ({
+    meta: [
+      { title: "Hero Demo | Cosmic Travel" },
+      {
+        name: "description",
+        content: "Demo of the responsive hero banner component.",
+      },
+      { property: "og:title", content: "Hero Demo | Cosmic Travel" },
+      {
+        property: "og:description",
+        content: "Demo of the responsive hero banner component.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
 function HeroDemo() {
