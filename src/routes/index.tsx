@@ -1,24 +1,53 @@
 import { createFileRoute } from "@tanstack/react-router";
+import ResponsiveHeroBanner from "@/components/ui/responsive-hero-banner";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "Journey Beyond Earth | Cosmic Travel" },
+      {
+        name: "description",
+        content:
+          "Experience the cosmos like never before. Advanced spacecraft and cutting-edge technology make interplanetary travel accessible, safe, and unforgettable.",
+      },
+      {
+        property: "og:title",
+        content: "Journey Beyond Earth | Cosmic Travel",
+      },
+      {
+        property: "og:description",
+        content:
+          "Experience the cosmos like never before. Advanced spacecraft and cutting-edge technology make interplanetary travel accessible, safe, and unforgettable.",
+      },
+      { property: "og:type", content: "website" },
+      {
+        property: "og:image",
+        content:
+          "https://cdn.21st.dev/assets/mirror/a8/a8cf38f65f7315f95eba8c803c4a80a9d78cb2ea36fbfee49828396e4a0b9737.jpg",
+      },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:image",
+        content:
+          "https://cdn.21st.dev/assets/mirror/a8/a8cf38f65f7315f95eba8c803c4a80a9d78cb2ea36fbfee49828396e4a0b9737.jpg",
+      },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <ResponsiveHeroBanner
+      badgeLabel="New"
+      badgeText="First Commercial Flight to Mars 2026"
+      title="Journey Beyond Earth"
+      titleLine2="Into the Cosmos"
+      description="Experience the cosmos like never before. Our advanced spacecraft and cutting-edge technology make interplanetary travel accessible, safe, and unforgettable."
+      primaryButtonText="Book Your Journey"
+      secondaryButtonText="Watch Launch"
+      ctaButtonText="Reserve Seat"
+      partnersTitle="Partnering with leading space agencies worldwide"
+    />
   );
 }
