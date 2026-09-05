@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ResponsiveHeroBanner from "@/components/ui/responsive-hero-banner";
 
-export const Route = createFileRoute("/")({
-  component: Index,
+export const Route = createFileRoute("/demo")({
+  component: HeroDemo,
 });
 
-function Index() {
+function HeroDemo() {
   return (
     <ResponsiveHeroBanner
       badgeLabel="New"
