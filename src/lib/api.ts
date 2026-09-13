@@ -98,6 +98,7 @@ export function equipmentConflicts() {
         for (let j = i + 1; j < eq.bookings.length; j++) {
           const a = eq.bookings[i];
           const b = eq.bookings[j];
+          if (!a || !b) continue;
           if (a.from <= b.to && b.from <= a.to) clashes.push({ a: a.projectId, b: b.projectId });
         }
       }
