@@ -48,6 +48,7 @@ export function visibleProjects(role: Role): Project[] {
   const all = db().projects;
   if (role === "admin") return all;
   const me = currentEmployee();
+  if (!me) return [];
   return all.filter((p) => p.assignees.includes(me.id) && projectTrack(p) === me.track);
 }
 
