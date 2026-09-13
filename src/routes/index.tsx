@@ -1,53 +1,58 @@
-import { createFileRoute } from "@tanstack/react-router";
-import ResponsiveHeroBanner from "@/components/ui/responsive-hero-banner";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Journey Beyond Earth | Cosmic Travel" },
+      { title: "Northform | Digital Product Studio" },
       {
         name: "description",
         content:
-          "Experience the cosmos like never before. Advanced spacecraft and cutting-edge technology make interplanetary travel accessible, safe, and unforgettable.",
+          "Northform is a product studio building fast, considered digital experiences for ambitious brands.",
       },
-      {
-        property: "og:title",
-        content: "Journey Beyond Earth | Cosmic Travel",
-      },
+      { property: "og:title", content: "Northform | Digital Product Studio" },
       {
         property: "og:description",
         content:
-          "Experience the cosmos like never before. Advanced spacecraft and cutting-edge technology make interplanetary travel accessible, safe, and unforgettable.",
+          "Northform is a product studio building fast, considered digital experiences for ambitious brands.",
       },
       { property: "og:type", content: "website" },
-      {
-        property: "og:image",
-        content:
-          "https://cdn.21st.dev/assets/mirror/a8/a8cf38f65f7315f95eba8c803c4a80a9d78cb2ea36fbfee49828396e4a0b9737.jpg",
-      },
       { name: "twitter:card", content: "summary_large_image" },
-      {
-        name: "twitter:image",
-        content:
-          "https://cdn.21st.dev/assets/mirror/a8/a8cf38f65f7315f95eba8c803c4a80a9d78cb2ea36fbfee49828396e4a0b9737.jpg",
-      },
     ],
   }),
 });
 
 function Index() {
   return (
-    <ResponsiveHeroBanner
-      badgeLabel="New"
-      badgeText="First Commercial Flight to Mars 2026"
-      title="Journey Beyond Earth"
-      titleLine2="Into the Cosmos"
-      description="Experience the cosmos like never before. Our advanced spacecraft and cutting-edge technology make interplanetary travel accessible, safe, and unforgettable."
-      primaryButtonText="Book Your Journey"
-      secondaryButtonText="Watch Launch"
-      ctaButtonText="Reserve Seat"
-      partnersTitle="Partnering with leading space agencies worldwide"
-    />
+    <main className="min-h-screen bg-background text-foreground">
+      <section className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center gap-8 px-6 py-24">
+        <span className="w-fit rounded-full border border-border px-3 py-1 text-xs tracking-widest uppercase text-muted-foreground">
+          Northform Studio
+        </span>
+        <h1 className="font-display text-5xl leading-[1.05] tracking-tight sm:text-7xl">
+          Considered digital
+          <br />
+          products, built fast.
+        </h1>
+        <p className="max-w-xl text-lg text-muted-foreground">
+          We design and ship interfaces, brands, and platforms for teams who care
+          about the details.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            to="/"
+            className="rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            Start a project
+          </Link>
+          <a
+            href="#work"
+            className="rounded-md border border-border px-6 py-3 text-sm font-medium transition-colors hover:bg-surface"
+          >
+            See our work
+          </a>
+        </div>
+      </section>
+    </main>
   );
 }
