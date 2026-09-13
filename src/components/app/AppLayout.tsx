@@ -2,170 +2,249 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useMemo, useState, type ReactNode } from "react";
 import {
   Bell,
+  CalendarDays,
   ChevronLeft,
   ChevronRight,
-  FileText,
-  LayoutGrid,
+  Clock3,
+  Files,
+  Gauge,
+  LayoutDashboard,
   ListChecks,
-  Receipt,
   Search,
-  Tag,
+  Settings,
+  Users,
+  UserRoundCheck,
+  BriefcaseBusiness,
+  ClipboardList,
+  Menu,
+  X,
 } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { currentEmployee } from "@/lib/api";
 import { useRole } from "@/lib/role";
 
+type AppPath =
+  | "/"
+  | "/tasks"
+  | "/logs"
+  | "/calendar"
+  | "/leads"
+  | "/projects"
+  | "/clients"
+  | "/files"
+  | "/team"
+  | "/performance"
+  | "/attendance"
+  | "/leaves"
+  | "/settings";
 interface NavItem {
-  to: "/" | "/projects" | "/tasks" | "/invoices" | "/rate-cards";
+  to: AppPath;
   label: string;
-  icon: typeof LayoutGrid;
+  icon: typeof LayoutDashboard;
   adminOnly?: boolean;
 }
-
 const NAV: { group: string; items: NavItem[] }[] = [
   {
     group: "Workspace",
     items: [
-      { to: "/", label: "Home", icon: LayoutGrid },
+      { to: "/", label: "Home", icon: LayoutDashboard },
       { to: "/tasks", label: "My Tasks", icon: ListChecks },
+      { to: "/logs", label: "Worksheet", icon: ClipboardList },
+      { to: "/calendar", label: "Calendar", icon: CalendarDays },
     ],
   },
   {
     group: "Projects & Sales",
-    items: [{ to: "/projects", label: "Projects", icon: FileText }],
-  },
-  {
-    group: "Billing",
     items: [
-      { to: "/invoices", label: "Invoices", icon: Receipt, adminOnly: true },
-      { to: "/rate-cards", label: "Rate Cards", icon: Tag, adminOnly: true },
+      { to: "/leads", label: "Leads", icon: BriefcaseBusiness, adminOnly: true },
+      { to: "/projects", label: "Projects", icon: Files },
+      { to: "/clients", label: "Clients", icon: Users, adminOnly: true },
     ],
   },
+  { group: "Assets", items: [{ to: "/files", label: "Files", icon: Files }] },
+  {
+    group: "People",
+    items: [
+      { to: "/team", label: "Employees", icon: Users },
+      { to: "/performance", label: "Performance", icon: Gauge },
+      { to: "/attendance", label: "Attendance", icon: Clock3 },
+      { to: "/leaves", label: "Leave", icon: UserRoundCheck },
+    ],
+  },
+  { group: "System", items: [{ to: "/settings", label: "Settings", icon: Settings }] },
 ];
-
-export function AppLayout({ children }: { children: ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false);
+function Sidebar({
+  collapsed,
+  setCollapsed,
+  mobile,
+  onNavigate,
+}: {
+  collapsed: boolean;
+  setCollapsed: (v: boolean) => void;
+  mobile?: boolean;
+  onNavigate?: () => void;
+}) {
   const { role, setRole, isAdmin } = useRole();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  return (
+    <aside
+      className={cn(
+        "flex h-full shrink-0 flex-col border border-border bg-[var(--sidebar-background)]",
+        mobile ? "w-72 rounded-none border-y-0 border-l-0" : "rounded-xl",
+        collapsed && !mobile ? "w-16" : "w-52",
+      )}
+    >
+      <div className="flex h-12 items-center gap-2 border-b border-border px-3">
+        <span className="grid size-7 shrink-0 place-items-center rounded-md bg-primary font-display text-[13px] font-bold text-primary-foreground">
+          A
+        </span>
+        {(!collapsed || mobile) && (
+          <div>
+            <b className="block text-[12px] tracking-wide">AbhiEdit</b>
+            <span className="text-[9px] uppercase tracking-[.18em] text-muted-foreground">
+              Media Operations
+            </span>
+          </div>
+        )}
+      </div>
+      <nav className="flex-1 overflow-y-auto px-2 py-3">
+        {NAV.map((group) => {
+          const items = group.items.filter((i) => !i.adminOnly || isAdmin);
+          return (
+            <section key={group.group} className="mb-4">
+              {(!collapsed || mobile) && (
+                <p className="px-2 pb-1.5 text-[9px] font-semibold uppercase tracking-[.17em] text-muted-foreground">
+                  {group.group}
+                </p>
+              )}
+              <div className="space-y-0.5">
+                {items.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.to}
+                    onClick={onNavigate}
+                    activeOptions={{ exact: item.to === "/" }}
+                    title={item.label}
+                    className="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground transition hover:bg-white/[.05] hover:text-foreground data-[status=active]:bg-primary/15 data-[status=active]:text-primary"
+                  >
+                    <item.icon className="size-4 shrink-0" />
+                    {(!collapsed || mobile) && <span className="text-[12px]">{item.label}</span>}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </nav>
+      <div className="border-t border-border p-2">
+        {(!collapsed || mobile) && (
+          <>
+            <div className="mb-2 rounded-md border border-border p-0.5">
+              <div className="grid grid-cols-2 gap-0.5">
+                {(["admin", "employee"] as const).map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => setRole(r)}
+                    className={cn(
+                      "rounded px-1 py-1 text-[10px] capitalize",
+                      role === r ? "bg-primary text-primary-foreground" : "text-muted-foreground",
+                    )}
+                  >
+                    {r}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <p className="px-1 text-[10px] text-muted-foreground">Previewing {role} access</p>
+          </>
+        )}{" "}
+        {!mobile && (
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="mt-2 flex w-full items-center justify-center rounded-md py-1.5 text-muted-foreground hover:bg-white/[.05]"
+          >
+            {collapsed ? (
+              <ChevronRight className="size-4" />
+            ) : (
+              <>
+                <ChevronLeft className="size-4" />
+                <span className="ml-1 text-[10px]">Collapse</span>
+              </>
+            )}
+          </button>
+        )}
+      </div>
+    </aside>
+  );
+}
+export function AppLayout({ children }: { children: ReactNode }) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [mobile, setMobile] = useState(false);
+  const { isAdmin } = useRole();
   const me = useMemo(() => currentEmployee(), []);
-  const title = useMemo(() => {
-    const all = NAV.flatMap((g) => g.items);
-    return all.find((i) => i.to === pathname)?.label ?? "Workspace";
-  }, [pathname]);
-
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const title = useMemo(
+    () => NAV.flatMap((g) => g.items).find((i) => i.to === pathname)?.label ?? "Workspace",
+    [pathname],
+  );
   return (
     <div className="flex h-screen gap-3 overflow-hidden bg-background p-3 text-[13px]">
-      <aside
-        className={cn(
-          "flex shrink-0 flex-col rounded-xl border border-border bg-surface transition-[width] duration-200",
-          collapsed ? "w-16" : "w-56",
-        )}
-      >
-        <div className="flex h-11 items-center gap-2 border-b border-border px-3">
-          <span className="grid size-6 shrink-0 place-items-center rounded bg-primary text-[11px] font-bold text-primary-foreground">
-            A
-          </span>
-          {!collapsed && (
-            <span className="truncate text-[12px] font-semibold uppercase tracking-[0.14em]">
-              AbhiEdit
-            </span>
-          )}
-        </div>
-
-        <nav className="flex-1 overflow-y-auto px-2 py-2">
-          {NAV.map((group) => {
-            const items = group.items.filter((i) => !i.adminOnly || isAdmin);
-            if (items.length === 0) return null;
-            return (
-              <div key={group.group} className="mb-3">
-                {!collapsed && (
-                  <div className="px-2 pb-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                    {group.group}
-                  </div>
-                )}
-                <ul className="space-y-[2px]">
-                  {items.map((item) => (
-                    <li key={item.to}>
-                      <Link
-                        to={item.to}
-                        activeOptions={{ exact: item.to === "/" }}
-                        title={item.label}
-                        className="flex items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-surface-strong hover:text-foreground data-[status=active]:bg-surface-strong data-[status=active]:text-foreground"
-                      >
-                        <item.icon className="size-4 shrink-0" aria-hidden />
-                        {!collapsed && <span className="truncate text-[12.5px]">{item.label}</span>}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-        </nav>
-
-        <div className="border-t border-border p-2">
-          {!collapsed && (
-            <div className="mb-2 flex rounded-md border border-border p-[2px]">
-              {(["admin", "employee"] as const).map((r) => (
-                <button
-                  key={r}
-                  onClick={() => setRole(r)}
-                  className={cn(
-                    "flex-1 rounded px-2 py-1 text-[11px] capitalize transition-colors",
-                    role === r
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-          )}
+      <div className="hidden md:block">
+        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      </div>
+      {mobile && (
+        <div className="fixed inset-0 z-50 bg-black/60 md:hidden">
+          <div className="h-full w-72">
+            <Sidebar
+              collapsed={false}
+              setCollapsed={setCollapsed}
+              mobile
+              onNavigate={() => setMobile(false)}
+            />
+          </div>
           <button
-            onClick={() => setCollapsed((c) => !c)}
-            className="flex w-full items-center justify-center gap-1 rounded-md px-2 py-1.5 text-[11px] text-muted-foreground hover:bg-surface-strong hover:text-foreground"
+            onClick={() => setMobile(false)}
+            className="absolute left-74 top-3 rounded bg-surface p-2"
           >
-            {collapsed ? <ChevronRight className="size-4" /> : <ChevronLeft className="size-4" />}
-            {!collapsed && "Collapse"}
+            <X className="size-4" />
           </button>
         </div>
-      </aside>
-
+      )}
       <div className="flex min-w-0 flex-1 flex-col gap-3">
-        <div className="flex h-11 shrink-0 items-center gap-3 rounded-xl border border-border bg-surface px-3">
-          <div className="flex min-w-0 items-center gap-1.5 text-[12px] text-muted-foreground">
-            <span>AbhiEdit</span>
-            <span className="opacity-50">/</span>
-            <span className="truncate text-foreground">{title}</span>
+        <header className="flex h-11 shrink-0 items-center gap-3 rounded-xl border border-border bg-surface/90 px-3">
+          <button className="md:hidden" onClick={() => setMobile(true)}>
+            <Menu className="size-4" />
+          </button>
+          <div className="min-w-0 text-[11px] text-muted-foreground">
+            <span className="hidden sm:inline">
+              Workspace <i className="mx-1 not-italic opacity-40">/</i>
+            </span>
+            <span className="text-foreground">{title}</span>
           </div>
           <div className="ml-auto flex items-center gap-2">
-            <div className="hidden items-center gap-2 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground sm:flex">
-              <Search className="size-3.5" aria-hidden />
-              <span>Search</span>
-              <kbd className="rounded border border-border px-1 font-mono text-[10px]">Ctrl K</kbd>
-            </div>
-            <button
-              aria-label="Notifications"
-              className="rounded-md p-1.5 text-muted-foreground hover:bg-surface-strong hover:text-foreground"
-            >
-              <Bell className="size-4" aria-hidden />
+            <button className="hidden items-center gap-2 rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground sm:flex">
+              <Search className="size-3.5" /> Search{" "}
+              <kbd className="ml-2 rounded border border-border px-1 text-[9px]">⌘ K</kbd>
+            </button>
+            <button className="relative rounded p-1.5 text-muted-foreground hover:bg-surface-strong">
+              <Bell className="size-4" />
+              <i className="absolute right-1 top-1 size-1.5 rounded-full bg-primary" />
             </button>
             <div className="flex items-center gap-2 border-l border-border pl-2">
-              <span className="grid size-6 place-items-center rounded-full bg-surface-strong text-[10px] font-semibold">
-                {(isAdmin ? "Arpan Chakraborty" : me?.name ?? "Employee")
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
+              <span className="grid size-6 place-items-center rounded-full bg-primary/20 text-[9px] font-bold text-primary">
+                {isAdmin
+                  ? "AC"
+                  : me?.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
               </span>
-              <span className="hidden text-[12px] md:inline">
+              <span className="hidden text-[11px] md:block">
                 {isAdmin ? "Arpan Chakraborty" : me?.name}
               </span>
             </div>
           </div>
-        </div>
-
+        </header>
         <main className="min-h-0 flex-1 overflow-y-auto rounded-xl border border-border bg-background">
           {children}
         </main>

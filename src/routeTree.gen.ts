@@ -11,10 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AppAttendanceRouteImport } from './routes/_app.attendance'
+import { Route as AppCalendarRouteImport } from './routes/_app.calendar'
+import { Route as AppClientsRouteImport } from './routes/_app.clients'
+import { Route as AppFilesRouteImport } from './routes/_app.files'
 import { Route as AppInvoicesRouteImport } from './routes/_app.invoices'
+import { Route as AppLeadsRouteImport } from './routes/_app.leads'
+import { Route as AppLeavesRouteImport } from './routes/_app.leaves'
+import { Route as AppLogsRouteImport } from './routes/_app.logs'
+import { Route as AppPerformanceRouteImport } from './routes/_app.performance'
 import { Route as AppProjectsRouteImport } from './routes/_app.projects'
 import { Route as AppRateCardsRouteImport } from './routes/_app.rate-cards'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppTasksRouteImport } from './routes/_app.tasks'
+import { Route as AppTeamRouteImport } from './routes/_app.team'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -25,9 +35,49 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAttendanceRoute = AppAttendanceRouteImport.update({
+  id: '/attendance',
+  path: '/attendance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarRoute = AppCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientsRoute = AppClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFilesRoute = AppFilesRouteImport.update({
+  id: '/files',
+  path: '/files',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppInvoicesRoute = AppInvoicesRouteImport.update({
   id: '/invoices',
   path: '/invoices',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLeadsRoute = AppLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLeavesRoute = AppLeavesRouteImport.update({
+  id: '/leaves',
+  path: '/leaves',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLogsRoute = AppLogsRouteImport.update({
+  id: '/logs',
+  path: '/logs',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPerformanceRoute = AppPerformanceRouteImport.update({
+  id: '/performance',
+  path: '/performance',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProjectsRoute = AppProjectsRouteImport.update({
@@ -40,47 +90,127 @@ const AppRateCardsRoute = AppRateCardsRouteImport.update({
   path: '/rate-cards',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppTasksRoute = AppTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTeamRoute = AppTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/attendance': typeof AppAttendanceRoute
+  '/calendar': typeof AppCalendarRoute
+  '/clients': typeof AppClientsRoute
+  '/files': typeof AppFilesRoute
   '/invoices': typeof AppInvoicesRoute
+  '/leads': typeof AppLeadsRoute
+  '/leaves': typeof AppLeavesRoute
+  '/logs': typeof AppLogsRoute
+  '/performance': typeof AppPerformanceRoute
   '/projects': typeof AppProjectsRoute
   '/rate-cards': typeof AppRateCardsRoute
+  '/settings': typeof AppSettingsRoute
   '/tasks': typeof AppTasksRoute
+  '/team': typeof AppTeamRoute
 }
 export interface FileRoutesByTo {
+  '/attendance': typeof AppAttendanceRoute
+  '/calendar': typeof AppCalendarRoute
+  '/clients': typeof AppClientsRoute
+  '/files': typeof AppFilesRoute
   '/invoices': typeof AppInvoicesRoute
+  '/leads': typeof AppLeadsRoute
+  '/leaves': typeof AppLeavesRoute
+  '/logs': typeof AppLogsRoute
+  '/performance': typeof AppPerformanceRoute
   '/projects': typeof AppProjectsRoute
   '/rate-cards': typeof AppRateCardsRoute
+  '/settings': typeof AppSettingsRoute
   '/tasks': typeof AppTasksRoute
+  '/team': typeof AppTeamRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/_app/attendance': typeof AppAttendanceRoute
+  '/_app/calendar': typeof AppCalendarRoute
+  '/_app/clients': typeof AppClientsRoute
+  '/_app/files': typeof AppFilesRoute
   '/_app/invoices': typeof AppInvoicesRoute
+  '/_app/leads': typeof AppLeadsRoute
+  '/_app/leaves': typeof AppLeavesRoute
+  '/_app/logs': typeof AppLogsRoute
+  '/_app/performance': typeof AppPerformanceRoute
   '/_app/projects': typeof AppProjectsRoute
   '/_app/rate-cards': typeof AppRateCardsRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/tasks': typeof AppTasksRoute
+  '/_app/team': typeof AppTeamRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/invoices' | '/projects' | '/rate-cards' | '/tasks'
+  fullPaths:
+    | '/'
+    | '/attendance'
+    | '/calendar'
+    | '/clients'
+    | '/files'
+    | '/invoices'
+    | '/leads'
+    | '/leaves'
+    | '/logs'
+    | '/performance'
+    | '/projects'
+    | '/rate-cards'
+    | '/settings'
+    | '/tasks'
+    | '/team'
   fileRoutesByTo: FileRoutesByTo
-  to: '/invoices' | '/projects' | '/rate-cards' | '/tasks' | '/'
+  to:
+    | '/attendance'
+    | '/calendar'
+    | '/clients'
+    | '/files'
+    | '/invoices'
+    | '/leads'
+    | '/leaves'
+    | '/logs'
+    | '/performance'
+    | '/projects'
+    | '/rate-cards'
+    | '/settings'
+    | '/tasks'
+    | '/team'
+    | '/'
   id:
     | '__root__'
     | '/_app'
+    | '/_app/attendance'
+    | '/_app/calendar'
+    | '/_app/clients'
+    | '/_app/files'
     | '/_app/invoices'
+    | '/_app/leads'
+    | '/_app/leaves'
+    | '/_app/logs'
+    | '/_app/performance'
     | '/_app/projects'
     | '/_app/rate-cards'
+    | '/_app/settings'
     | '/_app/tasks'
+    | '/_app/team'
     | '/_app/'
   fileRoutesById: FileRoutesById
 }
@@ -104,11 +234,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/attendance': {
+      id: '/_app/attendance'
+      path: '/attendance'
+      fullPath: '/attendance'
+      preLoaderRoute: typeof AppAttendanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/calendar': {
+      id: '/_app/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof AppCalendarRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/clients': {
+      id: '/_app/clients'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof AppClientsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/files': {
+      id: '/_app/files'
+      path: '/files'
+      fullPath: '/files'
+      preLoaderRoute: typeof AppFilesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/invoices': {
       id: '/_app/invoices'
       path: '/invoices'
       fullPath: '/invoices'
       preLoaderRoute: typeof AppInvoicesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/leads': {
+      id: '/_app/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof AppLeadsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/leaves': {
+      id: '/_app/leaves'
+      path: '/leaves'
+      fullPath: '/leaves'
+      preLoaderRoute: typeof AppLeavesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/logs': {
+      id: '/_app/logs'
+      path: '/logs'
+      fullPath: '/logs'
+      preLoaderRoute: typeof AppLogsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/performance': {
+      id: '/_app/performance'
+      path: '/performance'
+      fullPath: '/performance'
+      preLoaderRoute: typeof AppPerformanceRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/projects': {
@@ -125,6 +311,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRateCardsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/tasks': {
       id: '/_app/tasks'
       path: '/tasks'
@@ -132,22 +325,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTasksRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/team': {
+      id: '/_app/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof AppTeamRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAttendanceRoute: typeof AppAttendanceRoute
+  AppCalendarRoute: typeof AppCalendarRoute
+  AppClientsRoute: typeof AppClientsRoute
+  AppFilesRoute: typeof AppFilesRoute
   AppInvoicesRoute: typeof AppInvoicesRoute
+  AppLeadsRoute: typeof AppLeadsRoute
+  AppLeavesRoute: typeof AppLeavesRoute
+  AppLogsRoute: typeof AppLogsRoute
+  AppPerformanceRoute: typeof AppPerformanceRoute
   AppProjectsRoute: typeof AppProjectsRoute
   AppRateCardsRoute: typeof AppRateCardsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppTasksRoute: typeof AppTasksRoute
+  AppTeamRoute: typeof AppTeamRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAttendanceRoute: AppAttendanceRoute,
+  AppCalendarRoute: AppCalendarRoute,
+  AppClientsRoute: AppClientsRoute,
+  AppFilesRoute: AppFilesRoute,
   AppInvoicesRoute: AppInvoicesRoute,
+  AppLeadsRoute: AppLeadsRoute,
+  AppLeavesRoute: AppLeavesRoute,
+  AppLogsRoute: AppLogsRoute,
+  AppPerformanceRoute: AppPerformanceRoute,
   AppProjectsRoute: AppProjectsRoute,
   AppRateCardsRoute: AppRateCardsRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppTasksRoute: AppTasksRoute,
+  AppTeamRoute: AppTeamRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

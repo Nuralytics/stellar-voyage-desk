@@ -206,3 +206,18 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+:root {
+  --sidebar-background: oklch(0.145 0.006 60);
+  --track-physical: oklch(0.78 0.15 75);
+  --track-digital: oklch(0.62 0.16 295);
+  --success: oklch(0.68 0.16 150);
+  --info: oklch(0.67 0.15 230);
+}
+body {
+  background-image: radial-gradient(
+    circle at 80% 0%,
+    oklch(0.28 0.04 55 / 0.18),
+    transparent 32rem
+  );
+}
